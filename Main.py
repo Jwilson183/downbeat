@@ -1,34 +1,28 @@
 import pygame, sys
 from pygame.locals import *
- 
+import colors 
 # Initialize program
 pygame.init()
  
-# Assign FPS a value
-FPS = 30
-FramePerSec = pygame.time.Clock()
- 
-# Setting up color objects
-BLUE  = (0, 0, 255)
-RED   = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
- 
-# Setup a 300x300 pixel display with caption
-DISPLAYSURF = pygame.display.set_mode((300,300))
-DISPLAYSURF.fill(WHITE)
-pygame.display.set_caption("Example")
+# FPS
+fps = 60
+frame_per_sec = pygame.time.Clock()
 
-# Creating Lines and Shapes
-pygame.draw.line(DISPLAYSURF, BLUE, (150,130), (130,170))
-pygame.draw.line(DISPLAYSURF, BLUE, (150,130), (170,170))
-pygame.draw.line(DISPLAYSURF, GREEN, (130,170), (170,170))
-pygame.draw.circle(DISPLAYSURF, BLACK, (100,50), 30)
-pygame.draw.circle(DISPLAYSURF, BLACK, (200,50), 30)
-pygame.draw.rect(DISPLAYSURF, RED, (100, 200, 100, 50), 2)
-pygame.draw.rect(DISPLAYSURF, BLACK, (110, 260, 80, 5))
+# Setting up Variables
+height = 450
+width = 400
+acc = 0.5
+fric = -0.12
  
+#Vector Math
+
+# Setup display with caption
+display_surf = pygame.display.set_mode((300,300))
+display_surf.fill(white)
+pygame.display.set_caption("DownBeat")
+
+
+
 # Beginning Game Loop
 while True:
     pygame.display.update()
@@ -37,4 +31,4 @@ while True:
             pygame.quit()
             sys.exit()
    
-    FramePerSec.tick(FPS)
+    frame_per_sec.tick(fps)
