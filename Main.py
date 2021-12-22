@@ -5,6 +5,7 @@ from pygame.locals import *
 #import files
 import colors
 import Character
+import Player
 import Wall
 import gamerules
 # Initialize program
@@ -19,7 +20,7 @@ display_surf = pygame.display.set_mode((gamerules.width, gamerules.height))
 pygame.display.set_caption("DownBeat")
 
 #Sprites
-player1 = Character.Player(colors.green)
+player1 = Player.Player(colors.green)
 platform1 = Wall.Wall(gamerules.width/2, gamerules.height-20, gamerules.width, 30)
 
 #Sprite Groups
