@@ -1,8 +1,8 @@
-from typing import AsyncContextManager
-import pygame
+import pygame, sys
+from pygame.locals import *
 import gamerules
 
-class Player(pygame.sprite.Sprite):
+class Character(pygame.sprite.Sprite):
 	def __init__(self, c):
 		#Drawing Character
 		super().__init__()
