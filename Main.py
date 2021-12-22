@@ -4,9 +4,9 @@ from pygame.locals import *
 
 #import files
 import colors
-import Player
+import Character
 import Wall
-import level
+import gamerules
 # Initialize program
 pygame.init()
  
@@ -14,20 +14,13 @@ pygame.init()
 fps = 60
 frame_per_sec = pygame.time.Clock()
 
-# Setting up Variables
-acc = 0.5
-fric = -0.12
- 
-#Vector Math
-vec = pygame.math.Vector2  # 2 for two dimensional
-
 # Setup display with caption
-display_surf = pygame.display.set_mode((level.width, level.height))
+display_surf = pygame.display.set_mode((gamerules.width, gamerules.height))
 pygame.display.set_caption("DownBeat")
 
 #Sprites
-player1 = Player.Player(colors.green)
-platform1 = Wall.Wall(level.width/2, level.height-20, level.width, 30)
+player1 = Character.Player(colors.green)
+platform1 = Wall.Wall(gamerules.width/2, gamerules.height-20, gamerules.width, 30)
 
 #Sprite Groups
 all_sprites = pygame.sprite.Group()
