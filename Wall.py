@@ -1,6 +1,7 @@
 import colors
 import pygame
-
+#make a input of color
+#make a setting of if hazard true
 class Wall(pygame.sprite.Sprite):
 	def __init__(self, cx, cy, w, h):
 		super().__init__()
