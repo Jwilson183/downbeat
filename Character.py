@@ -11,10 +11,15 @@ class Character(pygame.sprite.Sprite):
 		self.pos = vec(10, 0)
 		self.vel = vec(0,0)
 		self.acc = vec(0, 0)
-		#Variables
+
+		#Physics
 		self.fric = fric
 		self.gravity = gravity
+
+		#Movement speed
 		self.max_acceleration = max_acceleration
+		self.jump_speed = 5
+
 		#Drawing Initial Position
 		self.surf = pygame.Surface((30, 30))
 		self.surf.fill((color))
@@ -38,13 +43,33 @@ class Character(pygame.sprite.Sprite):
 			self.acc.x = -self.max_acceleration
 		if self.should_move_right():
 			self.acc.x = self.max_acceleration
+		if self.should_move_up():
+			self.acc.y = -self.max_acceleration
+		if self.should_move_down():
+			self.acc.y = self.max_acceleration
+		
+		if self.should_jump():
+			self.jump()
 
 	def should_move_left(self):
 		pass
 
 	def should_move_right(self):
 		pass
-	
+
+	def should_move_up(self):
+		pass
+
+	def should_move_down(self):
+		pass
+
+	def should_jump(self):
+		pass
+
+	def jump(self):
+		self.pos.y -= self.jump_speed 
+		self.vel.y = -self.jump_speed
+
 	def render(self):
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
 		self.rect.midbottom = self.pos

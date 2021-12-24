@@ -1,4 +1,4 @@
-from pygame.constants import K_LEFT, K_RIGHT
+from pygame.constants import K_LEFT, K_RIGHT, K_UP
 from Character import Character
 import pygame
 
@@ -13,3 +13,13 @@ class Player(Character):
 	def should_move_right(self):
 		pressed_keys = pygame.key.get_pressed()
 		return pressed_keys[K_RIGHT]
+	
+	def should_jump(self):
+		pressed_keys = pygame.key.get_pressed()
+		return pressed_keys[K_UP]
+
+	def should_move_up(self):
+		return False
+
+	def should_move_down(self):
+		return False
