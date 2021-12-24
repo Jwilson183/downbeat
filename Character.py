@@ -1,4 +1,3 @@
-from sys import platform
 import pygame
 #from pygame.locals import *
 from pygame.math import Vector2 as vec
@@ -12,9 +11,8 @@ class Character(pygame.sprite.Sprite):
 		#Variables
 		self.max_acceleration = max_acceleration
 		self.fric = fric
-		self.gravity_constant = gravity
-		self.gravity = self.gravity_constant
-
+		self.gravity = gravity
+		
 		#Velocity
 		self.pos = vec((10, 200))
 		self.vel = vec(0, 0)
@@ -27,23 +25,14 @@ class Character(pygame.sprite.Sprite):
 	def update(self):
 		self.get_input()
 		self.render()
-		#self.platform_collision()
-		
+		self.collision()
+
 		#Movement
 		if self.vel.x != 0:
-			before = self.acc.x
 			self.acc.x += self.vel.x/abs(self.vel.x) * self.fric
-			after = self.acc.x
-			if (before > 0) != (after > 0):
-				self.vel.x = 0
-				self.acc.x = 0
-		self.rect.midbottom = self.pos
 		self.vel += self.acc
-		self.pos += self.vel + 0.5 * self.acc 	
-		#print(f"{self.acc=}, {self.vel=}, {self.pos=}")
-		
-		#Gravity
-		self.acc = vec(self.acc.x, self.gravity)
+		self.pos += self.vel +0.5 * self.acc 	
+
 	def get_input(self):
 		
 		#Inputs to movement
@@ -58,19 +47,14 @@ class Character(pygame.sprite.Sprite):
 	def should_move_right(self):
 		pass
 
-	def should_move_up(self):
+	def should_jump(self):
 		pass
 
 	def render(self):
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
 		
-	def platform_collision(self):
-		hits = pygame.sprite.spritecollide(self, sprites.platforms, False)	
+	def collision(self):
+		hits = pygame.sprite.spritecollide(self, sprites.obsticales, False)	
 		if hits:
-			print("hits")
-			self.gravity = 0
+			self.pos.y = hits[0].rect.top - 15 
 			self.vel.y = 0
-			print(self.acc)
-		else:
-			self.gravity = self.gravity_constant
-			print("not hits")
