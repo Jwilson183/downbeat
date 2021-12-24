@@ -29,6 +29,7 @@ while True:
     sprites.all_sprites.update()
 
     for entity in sprites.all_sprites:
+        #create a surf and rect by adding the screen location to the entity surf and rect, then blit the new surf and rect to the screen
         display_surf.blit(entity.surf, entity.rect)
 
     pygame.display.update()
