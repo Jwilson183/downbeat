@@ -38,5 +38,5 @@ class Player(Character):
 		if self.current_jump < self.vel.y:
 			self.current_jump = self.vel.y
 		if self.current_jump > self.vel.y:
-			#self.has_jump = False
+			self.has_jump = False
 			print ("test")
