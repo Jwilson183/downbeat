@@ -2,17 +2,20 @@ import pygame
 #from pygame.locals import *
 from pygame.math import Vector2 as vec
 import gamerules
+import sprites
 
 class Character(pygame.sprite.Sprite):
-	def __init__(self, color: tuple[int], max_acceleration: float):
+	def __init__(self, color: tuple[int], max_acceleration: float, fric: float, gravity: float):
 		super().__init__()
 
 		#Velocity
 		self.pos = vec((10, 400))
 		self.vel = vec(0,0)
-		self.acc = vec(0,0)
+		self.acc = vec(0, 0)
+		#Variables
+		self.fric = fric
+		self.gravity = gravity
 		self.max_acceleration = max_acceleration
-
 		#Drawing Initial Position
 		self.surf = pygame.Surface((30, 30))
 		self.surf.fill((color))
@@ -24,12 +27,12 @@ class Character(pygame.sprite.Sprite):
 
 		#Movement
 		if self.vel.x != 0:
-			self.acc.x += self.vel.x/abs(self.vel.x) * gamerules.fric
+			self.acc.x += self.vel.x/abs(self.vel.x) * self.fric
 		self.vel += self.acc
 		self.pos += self.vel +0.5 * self.acc 	
 
 	def get_input(self):
-		self.acc = vec(0,0)
+		self.acc = vec(0,self.gravity)
 
 		#Inputs to movement
 		if self.should_move_left():

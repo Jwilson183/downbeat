@@ -3,8 +3,8 @@ from Character import Character
 import pygame
 
 class Player(Character):
-	def __init__(self, color: tuple[int], max_acceleration: float):
-		super().__init__(color, max_acceleration)
+	def __init__(self, color: tuple[int], max_acceleration: float, fric: float, gravity: float):
+		super().__init__(color, max_acceleration, fric, gravity)
 
 	def should_move_left(self):
 		pressed_keys = pygame.key.get_pressed()
