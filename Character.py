@@ -1,7 +1,6 @@
 import pygame
 #from pygame.locals import *
 from pygame.math import Vector2 as vec
-import gamerules
 import sprites
 
 class Character(pygame.sprite.Sprite):
@@ -9,7 +8,7 @@ class Character(pygame.sprite.Sprite):
 		super().__init__()
 
 		#Velocity
-		self.pos = vec((10, 400))
+		self.pos = vec(10, 0)
 		self.vel = vec(0,0)
 		self.acc = vec(0, 0)
 		#Variables
@@ -23,7 +22,7 @@ class Character(pygame.sprite.Sprite):
 	def update(self):
 		self.get_input()
 		self.render()
-		print(self.pos.x)
+		self.handle_collisions()
 
 		#Movement
 		if self.vel.x != 0:
@@ -42,8 +41,16 @@ class Character(pygame.sprite.Sprite):
 
 	def should_move_left(self):
 		pass
+
 	def should_move_right(self):
 		pass
 	
 	def render(self):
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
+		self.rect.midbottom = self.pos
+
+	def handle_collisions(self):
+		hits = pygame.sprite.spritecollide(self, sprites.platforms, False)
+		if hits:
+			self.pos.y = hits[0].rect.top + 1
+			self.vel.y = 0
