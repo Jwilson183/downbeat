@@ -7,11 +7,10 @@ import colors
 #Sprites
 player1 = Player.Player(colors.green, 0.5, -0.25, 0.5)
 platform1 = Wall.Wall(gamerules.width/2, gamerules.height-20, gamerules.width, 30)
-platform2 = Wall.Wall(100, 100, 200, 50)
+
 #Sprite Groups
 platforms = pygame.sprite.Group()
 platforms.add(platform1)
-platforms.add(platform2)
 
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player1)
