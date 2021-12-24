@@ -1,36 +1,30 @@
 #import pygame
 import pygame, sys
 from pygame.locals import *
-pygame.init()
+from Scene import Scene
 
-#import files
-import colors
-import sprites
-import Player
-import Wall
-import gamerules
- 
-# FPS
-fps = 60
-frame_per_sec = pygame.time.Clock()
+def main():
+	pygame.init()
 
-# Setup display with caption
-display_surf = pygame.display.set_mode((gamerules.width, gamerules.height))
-pygame.display.set_caption("DownBeat")
+	fps = 60
+	frame_per_sec = pygame.time.Clock()	
 
-# Beginning Game Loop
-while True:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-   
-    display_surf.fill((colors.white))
-    sprites.all_sprites.update()
+	scene = Scene()
 
-    for entity in sprites.all_sprites:
-        #create a surf and rect by adding the screen location to the entity surf and rect, then blit the new surf and rect to the screen
-        display_surf.blit(entity.surf, entity.rect)
+	# Beginning Game Loop
+	while True:
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				pygame.quit()
+				sys.exit()
+	
+		scene.update()
 
-    pygame.display.update()
-    frame_per_sec.tick(fps)
+		#Display Update
+		pygame.display.update()
+
+		#Next frame
+		frame_per_sec.tick(fps)
+
+if __name__ == "__main__":
+	main()
