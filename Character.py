@@ -4,7 +4,7 @@ from pygame.math import Vector2 as vec
 import sprites
 
 class Character(pygame.sprite.Sprite):
-	def __init__(self, color: tuple[int], max_acceleration: float, fric: float, gravity: float):
+	def __init__(self, color: tuple[int], max_acceleration: float, fric: float, gravity: float, jump_speed: float, max_jump: int):
 		super().__init__()
 
 		#Velocity
@@ -18,7 +18,9 @@ class Character(pygame.sprite.Sprite):
 
 		#Movement speed
 		self.max_acceleration = max_acceleration
-		self.jump_speed = 5
+		self.jump_speed = jump_speed
+		self.max_jump = max_jump
+		self.jump_count = 0
 
 		#Drawing Initial Position
 		self.surf = pygame.Surface((30, 30))
@@ -67,8 +69,9 @@ class Character(pygame.sprite.Sprite):
 		pass
 
 	def jump(self):
-		self.pos.y -= self.jump_speed 
-		self.vel.y = -self.jump_speed
+		if self.is_on_ground:
+			self.pos.y -= self.jump_speed 
+			self.vel.y = -self.jump_speed
 
 	def render(self):
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
@@ -79,3 +82,6 @@ class Character(pygame.sprite.Sprite):
 		if hits:
 			self.pos.y = hits[0].rect.top + 1
 			self.vel.y = 0
+			self.is_on_ground = True
+		else:
+			self.is_on_ground = False
