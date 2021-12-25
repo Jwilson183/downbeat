@@ -9,7 +9,7 @@ def main():
 	fps = 60
 	frame_per_sec = pygame.time.Clock()	
 
-	scene = Scene()
+	scene = Scene(400, 450)
 
 	# Beginning Game Loop
 	while True:

@@ -1,7 +1,8 @@
 import pygame
 #from pygame.locals import *
 from pygame.math import Vector2 as vec
-from Scene import Scene
+from Collisions import Collisions
+from Collisions import hits
 
 class Character(pygame.sprite.Sprite):
 	def __init__(
@@ -11,12 +12,9 @@ class Character(pygame.sprite.Sprite):
 		fric: float,
 		gravity: float,
 		jump_speed: float,
-		scene: Scene
 	):
 		super().__init__()
-
-		self.scene = scene
-
+	
 		#Velocity
 		self.pos = vec(10, 0)
 		self.vel = vec(0,0)
@@ -87,10 +85,9 @@ class Character(pygame.sprite.Sprite):
 		self.rect.midbottom = self.pos
 
 	def handle_collisions(self):
-		hits = pygame.sprite.spritecollide(self, self.scene.platforms, False)
-		if hits:
-			self.pos.y = hits[0].rect.top + 1
-			self.vel.y = 0
-			self.is_on_ground = True
-		else:
-			self.is_on_ground = False
+		self.pos.y = hits[0].rect.top + 1
+		self.vel.y = 0
+		self.is_on_ground = True
+
+	def handle_no_collisions(self):
+		self.is_on_ground = False

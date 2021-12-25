@@ -10,3 +10,7 @@ class Wall(pygame.sprite.Sprite):
 		self.surf.fill((colors.red))
 		self.rect = self.surf.get_rect(center = (cx, cy))
 
+	def handle_collisions(self):
+		pass
+	def handle_no_collisions(self):
+		pass

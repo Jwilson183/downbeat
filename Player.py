@@ -55,7 +55,5 @@ class Player(Character):
 		return False
 		
 	def jump(self):
-		if self.should_jump:
-			self.pos.y -= self.jump_speed 
-			self.vel.y = -self.jump_speed
-			self.jump_count += 1
+		super().jump()
+		self.jump_count += 1

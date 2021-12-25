@@ -2,11 +2,14 @@
 import pygame, sys
 from pygame.locals import *
 from pygame.math import disable_swizzling
+from Character import Character
+from Wall import Wall
+from Collisions import Collisions
 
 #import files
 import colors
-import Player
-import Wall
+from Player import Player
+from Wall import Wall
 
 class Scene:
 	def __init__(
@@ -21,38 +24,45 @@ class Scene:
 		#Make Display
 		self.display_surf = pygame.display.set_mode((self.display_width, self.display_height))
 		pygame.display.set_caption("DownBeat")	
-
-	def update(self):
-		self.fill_display_surf()
-		self.Scene.all_sprites.update()
-		self.attatch_sprites()
-		self.make_players()
-		self.make_platforms()
-		self.make_all_sprites_groups()
-
-	def fill_display_surf(self):
 		self.display_surf.fill((colors.white))
 
+		#Sprites
+		self.all_sprites = pygame.sprite.Group()
+		self.players     = pygame.sprite.Group()
+		self.platforms   = pygame.sprite.Group()
+
+		self.create_sprites()
+
+	#some of these things shouldn't happen every frame
+	def update(self):
+		self.update_sprites()
+		self.render()
+
 	def update_sprites(self):
-		Scene.all_sprites.update()
+		self.all_sprites.update()
 
-	def attatch_sprites(self):
+	def render(self):
 		for entity in self.all_sprites:
-				#create a surf and rect by adding the screen location to the entity surf and rect, then blit the new surf and rect to the screen
-				self.display_surf.blit(entity.surf, entity.rect)
-	
-	#does this need to be generalized?
-	def make_players(self):
-		self.player1 = Player.Player(colors.green, 0.5, -0.25, 0.5, 5, 20, self)
-		self.players = pygame.sprite.Group()
-		self.players.add (self.player1)
-	
-	def make_platforms(self):
-		self.platform1 = Wall.Wall(self.display_width, self.display_height-20, self.display_width, 30)
-		self.platforms = pygame.sprite.Group()
-		self.platforms.add(self.platform1)
+			#create a surf and rect by adding the screen location to the entity surf and rect, then blit the new surf and rect to the screen
+			self.display_surf.blit(entity.surf, entity.rect)
 
-	def make_all_sprites_groups(self):
-		all_sprites = pygame.sprite.Group()
-		all_sprites.add(self.players)
-		all_sprites.add(self.platforms)
+	def create_sprites(self):
+		""" Create all sprites and add them to their respective groups. """
+		#players
+		self.player1 = Player(colors.green, 0.5, -0.25, 0.5, 5, 20)
+		self.players.add (self.player1)
+		self.all_sprites.add(self.players)
+
+		#platforms
+		self.platform1 = Wall(self.display_width, self.display_height-20, self.display_width, 30)
+		self.platforms.add(self.platform1)
+		self.all_sprites.add(self.platforms)
+
+	def detect_collisions(self):
+		self.Player_Platform_Collision = Collisions(Player, self.platforms, False)
+		if Collisions.detect_collisions:
+			Character.handle_collisions()
+			Wall.handle_collisions()
+		else:
+			Character.handle_no_collisions()
+			Wall.handle_no_collisions()
