@@ -2,7 +2,6 @@ import pygame
 #from pygame.locals import *
 from pygame.math import Vector2 as vec
 from Collisions import Collisions
-from Collisions import hits
 
 class Character(pygame.sprite.Sprite):
 	def __init__(
@@ -85,6 +84,7 @@ class Character(pygame.sprite.Sprite):
 		self.rect.midbottom = self.pos
 
 	def handle_collisions(self):
+		hits = Collisions.get_hits()
 		self.pos.y = hits[0].rect.top + 1
 		self.vel.y = 0
 		self.is_on_ground = True

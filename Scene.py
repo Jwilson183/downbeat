@@ -58,11 +58,13 @@ class Scene:
 		self.platforms.add(self.platform1)
 		self.all_sprites.add(self.platforms)
 
-	def detect_collisions(self):
-		self.Player_Platform_Collision = Collisions(Player, self.platforms, False)
-		if Collisions.detect_collisions:
+	def register_collisions(self):
+		self.Player_Platform_Collision = Collisions(self.player1, self.platforms, False)
+		hits = self.Player_Platform_Collision.detect_collisions()
+		if hits:
 			Character.handle_collisions()
 			Wall.handle_collisions()
+
 		else:
 			Character.handle_no_collisions()
 			Wall.handle_no_collisions()
