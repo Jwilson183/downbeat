@@ -1,7 +1,6 @@
 import pygame
 #from pygame.locals import *
 from pygame.math import Vector2 as vec
-from Collisions import Collisions
 
 class Character(pygame.sprite.Sprite):
 	def __init__(
@@ -31,17 +30,19 @@ class Character(pygame.sprite.Sprite):
 		#Drawing Initial Position
 		self.surf = pygame.Surface((30, 30))
 		self.surf.fill((color))
+		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
 
 	def update(self):
 		self.get_input()
+		self.move()
 		self.render()
-		self.handle_collisions()
 
-		#Movement
+	def move(self):
 		if self.vel.x != 0:
 			self.acc.x += self.vel.x/abs(self.vel.x) * self.fric
 		self.vel += self.acc
 		self.pos += self.vel +0.5 * self.acc 	
+		self.is_on_ground = False
 
 	def get_input(self):
 		self.acc = vec(0,self.gravity)
@@ -75,19 +76,14 @@ class Character(pygame.sprite.Sprite):
 		pass
 
 	def jump(self):
-		if self.is_on_ground:
-			self.pos.y -= self.jump_speed 
-			self.vel.y = -self.jump_speed
+		self.pos.y -= self.jump_speed 
+		self.vel.y = -self.jump_speed
 
 	def render(self):
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
 		self.rect.midbottom = self.pos
 
-	def handle_collisions(self):
-		hits = Collisions.get_hits()
-		self.pos.y = hits[0].rect.top + 1
+	def handle_platform_collisions(self, platform):
+		self.pos.y = platform.rect.top + 1
 		self.vel.y = 0
 		self.is_on_ground = True
-
-	def handle_no_collisions(self):
-		self.is_on_ground = False

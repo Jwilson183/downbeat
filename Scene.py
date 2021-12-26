@@ -1,10 +1,8 @@
 #import pygame
 import pygame, sys
 from pygame.locals import *
-from pygame.math import disable_swizzling
 from Character import Character
 from Wall import Wall
-from Collisions import Collisions
 
 #import files
 import colors
@@ -24,7 +22,6 @@ class Scene:
 		#Make Display
 		self.display_surf = pygame.display.set_mode((self.display_width, self.display_height))
 		pygame.display.set_caption("DownBeat")	
-		self.display_surf.fill((colors.white))
 
 		#Sprites
 		self.all_sprites = pygame.sprite.Group()
@@ -35,6 +32,7 @@ class Scene:
 
 	#some of these things shouldn't happen every frame
 	def update(self):
+		self.register_collisions()
 		self.update_sprites()
 		self.render()
 
@@ -42,6 +40,7 @@ class Scene:
 		self.all_sprites.update()
 
 	def render(self):
+		self.display_surf.fill((colors.white))
 		for entity in self.all_sprites:
 			#create a surf and rect by adding the screen location to the entity surf and rect, then blit the new surf and rect to the screen
 			self.display_surf.blit(entity.surf, entity.rect)
@@ -49,22 +48,26 @@ class Scene:
 	def create_sprites(self):
 		""" Create all sprites and add them to their respective groups. """
 		#players
-		self.player1 = Player(colors.green, 0.5, -0.25, 0.5, 5, 20)
+		self.player1 = Player(
+			colors.green,
+			max_acceleration = 0.5,
+			fric       = -0.25,
+			gravity    = 0.5,
+			jump_speed = 5,
+			max_jump   = 10
+		)
+
 		self.players.add (self.player1)
 		self.all_sprites.add(self.players)
 
 		#platforms
-		self.platform1 = Wall(self.display_width, self.display_height-20, self.display_width, 30)
+		self.platform1 = Wall(self.display_width/2, self.display_height-20, self.display_width, 30)
 		self.platforms.add(self.platform1)
 		self.all_sprites.add(self.platforms)
 
 	def register_collisions(self):
-		self.Player_Platform_Collision = Collisions(self.player1, self.platforms, False)
-		hits = self.Player_Platform_Collision.detect_collisions()
-		if hits:
-			Character.handle_collisions()
-			Wall.handle_collisions()
-
-		else:
-			Character.handle_no_collisions()
-			Wall.handle_no_collisions()
+		#for player in self.players:	
+		hits = pygame.sprite.spritecollide(self.player1, self.platforms, False)
+		for platform in hits:
+			self.player1.handle_platform_collisions(platform)
+			platform.handle_player1_collisions(self.player1)
