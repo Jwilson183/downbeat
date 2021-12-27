@@ -62,9 +62,15 @@ class Scene:
 
 		#platforms
 		self.platform1 = Wall(self.display_width/2, self.display_height-20, self.display_width, 30)
+		self.platform2 = Wall(self.display_width/2 + 100, self.display_height-50, 30, 90)
+		self.platform3 = Wall(self.display_width/8, self.display_height-150, self.display_width - 150, 30)
+		
+		#platform group
 		self.platforms.add(self.platform1)
+		self.platforms.add(self.platform2)
+		self.platforms.add(self.platform3)
 		self.all_sprites.add(self.platforms)
-
+		
 	def register_collisions(self):
 		#for player in self.players:	
 		hits = pygame.sprite.spritecollide(self.player1, self.platforms, False)

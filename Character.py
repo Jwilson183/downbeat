@@ -14,7 +14,7 @@ class Character(pygame.sprite.Sprite):
 		super().__init__()
 	
 		#Velocity
-		self.pos = vec(10, 0)
+		self.pos = vec(10, 350)
 		self.vel = vec(0,0)
 		self.acc = vec(0, 0)
 
@@ -83,7 +83,21 @@ class Character(pygame.sprite.Sprite):
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
 		self.rect.midbottom = self.pos
 
-	def handle_platform_collisions(self, platform):
-		self.pos.y = platform.rect.top + 1
-		self.vel.y = 0
-		self.is_on_ground = True
+	def handle_platform_collisions(self, platform):	
+		if self.pos.y - 15 <= platform.centery - platform.height/2:
+			self.pos.y = platform.rect.top + 1
+			self.vel.y = 0
+			self.is_on_ground = True
+	
+		elif self.pos.x - 15 <= platform.centerx - platform.width/2:
+			self.pos.x = platform.rect.left - 15
+			self.vel.x = 0
+
+		elif self.pos.x + 15 >= platform.centerx + platform.width/2:
+			self.pos.x = platform.rect.right + 15
+			self.vel.x = 0
+			
+		elif self.pos.y + 15 >= platform.centery + platform.height/2:
+			self.pos.y = platform.rect.bottom + 30
+			self.vel.y = 0	
+	

@@ -10,5 +10,11 @@ class Wall(pygame.sprite.Sprite):
 		self.surf.fill((colors.red))
 		self.rect = self.surf.get_rect(center = (cx, cy))
 
+		#Dimensions
+		self.centerx = cx
+		self.centery = cy
+		self.width = w
+		self.height = h
+		
 	def handle_player1_collisions(self, player):
 		pass
