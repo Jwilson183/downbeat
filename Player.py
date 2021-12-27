@@ -10,10 +10,22 @@ class Player(Character):
 		fric: float,
 		gravity: float,
 		jump_speed: float,
-		max_jump: int
+		max_jump: int,
+		width: int,
+		height: int,
+		initial_pos: tuple
 	):
 	
-		super().__init__(color, max_acceleration, fric, gravity, jump_speed)
+		super().__init__(
+			color, 
+			max_acceleration,
+			fric,
+			gravity,
+			jump_speed,
+			width,
+			height,
+			initial_pos
+		)
 
 		self.jump_count = 0
 		self.max_jump = max_jump

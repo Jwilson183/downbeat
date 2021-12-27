@@ -26,7 +26,7 @@ class Scene:
 		#Sprites
 		self.all_sprites = pygame.sprite.Group()
 		self.players     = pygame.sprite.Group()
-		self.platforms   = pygame.sprite.Group()
+		self.walls   = pygame.sprite.Group()
 
 		self.create_sprites()
 
@@ -51,29 +51,32 @@ class Scene:
 		self.player1 = Player(
 			colors.green,
 			max_acceleration = 0.5,
-			fric       = -0.25,
-			gravity    = 0.5,
-			jump_speed = 5,
-			max_jump   = 10
+			fric        = -0.25,
+			gravity     = 0.5,
+			jump_speed  = 5,
+			max_jump    = 10,
+			width       = 30,
+			height      = 30,
+			initial_pos = (100, 300)
 		)
 
 		self.players.add (self.player1)
 		self.all_sprites.add(self.players)
 
-		#platforms
-		self.platform1 = Wall(self.display_width/2, self.display_height-20, self.display_width, 30)
-		self.platform2 = Wall(self.display_width/2 + 100, self.display_height-50, 30, 90)
-		self.platform3 = Wall(self.display_width/8, self.display_height-150, self.display_width - 150, 30)
+		#walls
+		self.wall1 = Wall(self.display_width/2, self.display_height-20, self.display_width, 30)
+		self.wall2 = Wall(self.display_width/2 + 100, self.display_height-50, 30, 90)
+		self.wall3 = Wall(self.display_width/8, self.display_height-150, self.display_width - 150, 30)
 		
-		#platform group
-		self.platforms.add(self.platform1)
-		self.platforms.add(self.platform2)
-		self.platforms.add(self.platform3)
-		self.all_sprites.add(self.platforms)
+		#wall group
+		self.walls.add(self.wall1)
+		self.walls.add(self.wall2)
+		self.walls.add(self.wall3)
+		self.all_sprites.add(self.walls)
 		
 	def register_collisions(self):
 		#for player in self.players:	
-		hits = pygame.sprite.spritecollide(self.player1, self.platforms, False)
-		for platform in hits:
-			self.player1.handle_platform_collisions(platform)
-			platform.handle_player1_collisions(self.player1)
+		hits = pygame.sprite.spritecollide(self.player1, self.walls, False)
+		for wall in hits:
+			self.player1.handle_wall_collisions(wall)
+			wall.handle_player1_collisions(self.player1)

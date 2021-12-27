@@ -10,11 +10,14 @@ class Character(pygame.sprite.Sprite):
 		fric: float,
 		gravity: float,
 		jump_speed: float,
+		width: int,
+		height: int,
+		initial_pos: tuple,
 	):
 		super().__init__()
-	
+
 		#Velocity
-		self.pos = vec(10, 350)
+		self.pos = vec(initial_pos)
 		self.vel = vec(0,0)
 		self.acc = vec(0, 0)
 
@@ -28,7 +31,7 @@ class Character(pygame.sprite.Sprite):
 		self.is_on_ground = False
 
 		#Drawing Initial Position
-		self.surf = pygame.Surface((30, 30))
+		self.surf = pygame.Surface((width, height))
 		self.surf.fill((color))
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
 
@@ -41,7 +44,7 @@ class Character(pygame.sprite.Sprite):
 		if self.vel.x != 0:
 			self.acc.x += self.vel.x/abs(self.vel.x) * self.fric
 		self.vel += self.acc
-		self.pos += self.vel +0.5 * self.acc 	
+		self.pos += self.vel + 0.5 * self.acc 	
 		self.is_on_ground = False
 
 	def get_input(self):
@@ -83,21 +86,31 @@ class Character(pygame.sprite.Sprite):
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
 		self.rect.midbottom = self.pos
 
-	def handle_platform_collisions(self, platform):	
-		if self.pos.y - 15 <= platform.centery - platform.height/2:
-			self.pos.y = platform.rect.top + 1
+	def handle_wall_collisions(self, wall):
+		"""Uses the posistion of the Character relative to the object that Character is colliding with to 
+		decern which side Character is colliding with so that character can be moved in the proper direction"""
+
+		#Order of checked needs self.bottom, self.left, self.right, and then self.top. Collisions with
+		#the bottom of Character need to happen first and collisions with the 
+		#top of Character need to happen last to ensure that the correct side is detected.
+		
+		#Bottom of Character
+		if self.rect.centery <= wall.rect.centery - wall.rect.height/2:
+			self.pos.y = wall.rect.top + 1
 			self.vel.y = 0
 			self.is_on_ground = True
 	
-		elif self.pos.x - 15 <= platform.centerx - platform.width/2:
-			self.pos.x = platform.rect.left - 15
+		#Left of Character
+		elif self.rect.left - self.rect.width/2 <= wall.rect.centerx - wall.rect.width/2:
+			self.pos.x = wall.rect.left - self.rect.width/2
 			self.vel.x = 0
 
-		elif self.pos.x + 15 >= platform.centerx + platform.width/2:
-			self.pos.x = platform.rect.right + 15
+		#Right of Character
+		elif self.rect.right - self.rect.width/2 >= wall.rect.centerx + wall.rect.width/2:
+			self.pos.x = wall.rect.right + self.rect.width/2
 			self.vel.x = 0
 			
-		elif self.pos.y + 15 >= platform.centery + platform.height/2:
-			self.pos.y = platform.rect.bottom + 30
+		#Top of Character
+		elif self.rect.top + self.rect.height/2 >= wall.rect.centery + wall.rect.height/2:
+			self.pos.y = wall.rect.bottom + self.rect.height
 			self.vel.y = 0	
-	
