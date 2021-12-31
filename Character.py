@@ -95,22 +95,22 @@ class Character(pygame.sprite.Sprite):
 		#top of Character need to happen last to ensure that the correct side is detected.
 		
 		#Bottom of Character
-		if self.rect.centery <= wall.rect.centery - wall.rect.height/2:
+		if self.rect.centery <= wall.rect.top:
 			self.pos.y = wall.rect.top + 1
 			self.vel.y = 0
 			self.is_on_ground = True
 	
 		#Left of Character
-		elif self.rect.left - self.rect.width/2 <= wall.rect.centerx - wall.rect.width/2:
+		elif self.rect.centerx <= wall.rect.left:
 			self.pos.x = wall.rect.left - self.rect.width/2
 			self.vel.x = 0
 
 		#Right of Character
-		elif self.rect.right - self.rect.width/2 >= wall.rect.centerx + wall.rect.width/2:
+		elif self.rect.centerx >= wall.rect.right:
 			self.pos.x = wall.rect.right + self.rect.width/2
 			self.vel.x = 0
 			
 		#Top of Character
-		elif self.rect.top + self.rect.height/2 >= wall.rect.centery + wall.rect.height/2:
+		elif self.rect.centery >= wall.rect.bottom:
 			self.pos.y = wall.rect.bottom + self.rect.height
 			self.vel.y = 0	

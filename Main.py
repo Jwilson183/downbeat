@@ -1,15 +1,19 @@
 #import pygame
 import pygame, sys
 from pygame.locals import *
+from Player import Player
 from Scene import Scene
+from ScrollScene import ScrollScene
 
 def main():
 	pygame.init()
 
 	fps = 60
+
 	frame_per_sec = pygame.time.Clock()	
 
-	scene = Scene(400, 450)
+	scene = ScrollScene(400, 450, 0.5)
+	scene.focus = scene.player1
 
 	# Beginning Game Loop
 	while True:

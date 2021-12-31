@@ -26,7 +26,7 @@ class Scene:
 		#Sprites
 		self.all_sprites = pygame.sprite.Group()
 		self.players     = pygame.sprite.Group()
-		self.walls   = pygame.sprite.Group()
+		self.walls       = pygame.sprite.Group()
 
 		self.create_sprites()
 
@@ -54,7 +54,7 @@ class Scene:
 			fric        = -0.25,
 			gravity     = 0.5,
 			jump_speed  = 5,
-			max_jump    = 10,
+			max_jump    = 200,
 			width       = 30,
 			height      = 30,
 			initial_pos = (100, 300)
