@@ -27,8 +27,9 @@ class Scene:
 		self.all_sprites = pygame.sprite.Group()
 		self.players     = pygame.sprite.Group()
 		self.walls       = pygame.sprite.Group()
-
+		self.test_lines  = pygame.sprite.Group()
 		self.create_sprites()
+
 
 	#some of these things shouldn't happen every frame
 	def update(self):
@@ -54,10 +55,10 @@ class Scene:
 			fric        = -0.25,
 			gravity     = 0.5,
 			jump_speed  = 5,
-			max_jump    = 200,
+			max_jump    = 20,
 			width       = 30,
 			height      = 30,
-			initial_pos = (100, 300)
+			initial_pos = (100, 150)
 		)
 
 		self.players.add (self.player1)
@@ -74,9 +75,83 @@ class Scene:
 		self.walls.add(self.wall3)
 		self.all_sprites.add(self.walls)
 		
+		#Test Line
+		'''
+		self.test_lines.add(self.topleft_line)
+		self.test_lines.add(self.topright_line)
+		self.test_lines.add(self.bottomleft_line)
+		self.test_lines.add(self.bottomright_line)
+		self.all_sprites.add(self.test_lines)
+		'''
+		
 	def register_collisions(self):
 		#for player in self.players:	
+	#for player in self.players:	
 		hits = pygame.sprite.spritecollide(self.player1, self.walls, False)
 		for wall in hits:
 			self.player1.handle_wall_collisions(wall)
 			wall.handle_player1_collisions(self.player1)
+	
+	
+	
+	'''	This code used to be in register collisions for line collision
+	self.keep_checking = True
+	self.register_collisions_corners(self.player1.rect.topleft)
+	self.register_collisions_corners(self.player1.rect.topright)
+	self.register_collisions_corners(self.player1.rect.bottomleft)
+	self.register_collisions_corners(self.player1.rect.bottomright)
+	'''
+
+'''
+	def register_collisions_corners(self, corner):
+			
+			if self.keep_checking:
+			player1_last_pos = corner - (self.player1.vel + 0.5 *self.player1.acc)
+			line = pygame.draw.line(self.display_surf, colors.blue, player1_last_pos, corner)
+			for wall in self.walls:
+				line_in_rect = wall.rect.clipline(line)
+				print(line_in_rect)
+				if line_in_rect:
+					self.player1.handle_wall_collisions(wall, player1_last_pos)
+					self.keep_checking = False
+		
+		#tests top left line with all walls
+		self.player1_tl_last_pos = self.player1.rect.topleft - (self.player1.vel + 0.5 * self.player1.acc)
+		self.topleft_line = pygame.draw.line(self.display_surf, colors.blue, self.player1_tl_last_pos, self.player1.rect.topleft)		
+		
+		for wall in self.walls:
+			self.line_in_rect = wall.rect.clipline(self.topleft_line)
+
+		if self.line_in_rect:
+			self.player1.handle_wall_collisions(wall, self.player1_tl_last_pos)
+
+		#test top right line with all walls
+		self.player1_tr_last_pos = self.player1.rect.topright - (self.player1.vel + 0.5 * self.player1.acc)
+		self.topright_line = pygame.draw.line(self.display_surf, colors.blue, self.player1_tr_last_pos, self.player1.rect.topright)		
+		
+		for wall in self.walls:
+			self.line_in_rect = wall.rect.clipline(self.topright_line)
+
+		if self.line_in_rect:
+			self.player1.handle_wall_collisions(wall, self.player1_tr_last_pos)
+
+		#test bottom left line with all walls
+		self.player1_bl_last_pos = self.player1.rect.bottomleft - (self.player1.vel + 0.5 * self.player1.acc)
+		self.bottomleft_line = pygame.draw.line(self.display_surf, colors.blue, self.player1_bl_last_pos, self.player1.rect.bottomleft)		
+		
+		for wall in self.walls:
+			self.line_in_rect = wall.rect.clipline(self.bottomleft_line)
+
+		if self.line_in_rect:
+			self.player1.handle_wall_collisions(wall, self.player1_bl_last_pos)
+
+		#test bottom right line with all walls
+		self.player1_br_last_pos = self.player1.rect.bottomright - (self.player1.vel + 0.5 * self.player1.acc)
+		self.bottomright_line = pygame.draw.line(self.display_surf, colors.blue, self.player1_br_last_pos, self.player1.rect.bottomright)		
+		
+		for wall in self.walls:
+			self.line_in_rect = wall.rect.clipline(self.bottomright_line)
+
+		if self.line_in_rect:
+			self.player1.handle_wall_collisions(wall, self.player1_br_last_pos)
+		'''

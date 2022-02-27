@@ -33,7 +33,7 @@ class ScrollScene(Scene):
 			return
 
 		#Top of focus_rect
-		if self.focus.rect.bottom <= self.focus_rect.rect.top:
+		elif self.focus.rect.bottom <= self.focus_rect.rect.top:
 			self.offset.y += self.focus.rect.bottom - self.focus_rect.rect.top
 	
 		#Right of focus_rect
@@ -43,7 +43,6 @@ class ScrollScene(Scene):
 		#Left of focus_rect
 		if self.focus.rect.right <= self.focus_rect.rect.left:
 			self.offset.x += self.focus.rect.right - self.focus_rect.rect.left
-			print("left registered")
 		#Bottom of focus_rect
 		if self.focus.rect.top >= self.focus_rect.rect.bottom:
 			self.offset.y += self.focus.rect.top - self.focus_rect.rect.bottom

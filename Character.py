@@ -87,30 +87,35 @@ class Character(pygame.sprite.Sprite):
 		self.rect.midbottom = self.pos
 
 	def handle_wall_collisions(self, wall):
-		"""Uses the posistion of the Character relative to the object that Character is colliding with to 
+		"""Uses the position of the Character relative to the object that Character is colliding with to 
 		decern which side Character is colliding with so that character can be moved in the proper direction"""
 
 		#Order of checked needs self.bottom, self.left, self.right, and then self.top. Collisions with
 		#the bottom of Character need to happen first and collisions with the 
 		#top of Character need to happen last to ensure that the correct side is detected.
 		
+
 		#Bottom of Character
 		if self.rect.centery <= wall.rect.top:
 			self.pos.y = wall.rect.top + 1
 			self.vel.y = 0
 			self.is_on_ground = True
-	
+			print("bottom")	
+
 		#Left of Character
-		elif self.rect.centerx <= wall.rect.left:
+		elif self.rect.left - self.rect.width/2 <= wall.rect.left:
 			self.pos.x = wall.rect.left - self.rect.width/2
 			self.vel.x = 0
+			print("right")
 
 		#Right of Character
-		elif self.rect.centerx >= wall.rect.right:
+		elif self.rect.right - self.rect.width/2 >= wall.rect.right:
 			self.pos.x = wall.rect.right + self.rect.width/2
 			self.vel.x = 0
-			
+			print("left")
+
 		#Top of Character
-		elif self.rect.centery >= wall.rect.bottom:
+		elif self.rect.top + self.rect.height/2 >= wall.rect.bottom:
 			self.pos.y = wall.rect.bottom + self.rect.height
-			self.vel.y = 0	
+			self.vel.y = 0
+			print("top")	
