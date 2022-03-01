@@ -1,4 +1,5 @@
-from pygame.constants import K_DOWN, K_LEFT, K_RIGHT, K_UP
+from pygame.constants import K_LEFT, K_RIGHT, K_UP, K_r
+from pygame.math import Vector2 as vec
 from Character import Character
 import pygame
 
@@ -30,6 +31,18 @@ class Player(Character):
 		self.jump_count = 0
 		self.max_jump = max_jump
 		self.has_jump = False
+		self.initial_pos = initial_pos
+		
+
+	def get_input(self):
+		super().get_input() #inherits all of the checks in the get_input method in Character
+
+		if Player.should_reset(): #if should_reset has a value, player is moved to its initial pos and its vel/acc are set to 0
+			self.pos = vec(self.initial_pos)
+			self.vel = vec(0,0)
+			self.acc = vec(0, 0)
+
+
 	def should_move_left(self):
 		pressed_keys = pygame.key.get_pressed()
 		return pressed_keys[K_LEFT]
@@ -67,3 +80,7 @@ class Player(Character):
 	def jump(self):
 		super().jump()
 		self.jump_count += 1
+	
+	def should_reset():
+		pressed_keys = pygame.key.get_pressed()
+		return pressed_keys[K_r]

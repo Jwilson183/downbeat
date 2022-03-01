@@ -1,5 +1,5 @@
 #import pygame
-import pygame, sys
+import pygame
 from pygame.locals import *
 from Character import Character
 from Wall import Wall
@@ -92,7 +92,7 @@ class Scene:
 			self.player1.handle_wall_collisions(wall)
 			wall.handle_player1_collisions(self.player1)
 	
-	
+
 	
 	'''	This code used to be in register collisions for line collision
 	self.keep_checking = True
@@ -155,3 +155,4 @@ class Scene:
 		if self.line_in_rect:
 			self.player1.handle_wall_collisions(wall, self.player1_br_last_pos)
 		'''
+
