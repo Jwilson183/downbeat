@@ -39,7 +39,7 @@ class Player(Character):
 
 		if Player.should_reset(): #if should_reset has a value, player is moved to its initial pos and its vel/acc are set to 0
 			self.pos = vec(self.initial_pos)
-			self.vel = vec(0,0)
+			self.vel = vec(0, 0)
 			self.acc = vec(0, 0)
 
 

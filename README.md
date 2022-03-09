@@ -1,9 +1,12 @@
 # downbeat
-So downbeat is a simple 2d waller.
+So downbeat is a simple 2d platformer. Right now, there are many features missing, but it has been built in a very expandable way so that other features can be implemented as I go.
+
+
+Here is the concept
 There is a metronome ticking and whenever it hits the downbeat the gravity changes directions.
 The time signature and tempo might change with different levels.
 
-NOTE: Josiah is a poopypants. Also, make slippery and sticky surfaces in different levels. And jumpy surfaces.
+NOTE: Also, make slippery and sticky surfaces in different levels. And jumpy surfaces.
 
 Sprite movement when beat hits
 Something special on the beat drop
