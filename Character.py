@@ -101,6 +101,11 @@ class Character(pygame.sprite.Sprite):
 			self.vel.y = 0
 			self.is_on_ground = True
 
+		#Top of Character
+		elif self.rect.top + self.rect.height/2 >= wall.rect.bottom:
+			self.pos.y = wall.rect.bottom + self.rect.height * 1.25
+			self.vel.y = 0
+
 		#Left of Character
 		elif self.rect.left - self.rect.width/2 <= wall.rect.left:
 			self.pos.x = wall.rect.left - self.rect.width/2
@@ -111,7 +116,3 @@ class Character(pygame.sprite.Sprite):
 			self.pos.x = wall.rect.right + self.rect.width/2
 			self.vel.x = 0
 
-		#Top of Character
-		elif self.rect.top + self.rect.height/2 >= wall.rect.bottom:
-			self.pos.y = wall.rect.bottom + self.rect.height
-			self.vel.y = 0
