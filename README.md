@@ -1,6 +1,13 @@
 # downbeat
 So downbeat is a simple 2d platformer. Right now, there are many features missing, but it has been built in a very expandable way so that other features can be implemented as I go.
 
+Controls:
+Up arrow: Jump, hold for more height
+Left arrow: Move Left
+Right arrow: Move Right
+R: Reset Level
+
+
 
 Here is the concept
 There is a metronome ticking and whenever it hits the downbeat the gravity changes directions.
