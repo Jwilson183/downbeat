@@ -29,6 +29,6 @@ def main():
 
 		#Next frame
 		frame_per_sec.tick(fps)
-
+		
 if __name__ == "__main__":
 	main()

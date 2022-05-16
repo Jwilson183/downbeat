@@ -1,4 +1,4 @@
-from pygame.constants import K_LEFT, K_RIGHT, K_UP, K_r
+from pygame.constants import K_LEFT, K_RIGHT, K_UP, K_r, K_e
 from pygame.math import Vector2 as vec
 from Character import Character
 import pygame
@@ -39,9 +39,14 @@ class Player(Character):
 
 		if Player.should_reset(): #if should_reset has a value, player is moved to its initial pos and its vel/acc are set to 0
 			self.pos = vec(self.initial_pos)
+			self.gravity = self.gravity_const
 			self.vel = vec(0, 0)
 			self.acc = vec(0, 0)
 
+	def should_invert(self):
+		pressed_keys = pygame.key.get_pressed()
+		if pressed_keys[K_e]:
+			return True
 
 	def should_move_left(self):
 		pressed_keys = pygame.key.get_pressed()
@@ -76,7 +81,8 @@ class Player(Character):
 
 	def should_move_down(self):
 		return False
-		
+	
+
 	def jump(self):
 		super().jump()
 		self.jump_count += 1

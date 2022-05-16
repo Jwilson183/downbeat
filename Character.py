@@ -23,8 +23,10 @@ class Character(pygame.sprite.Sprite):
 
 		#Physics
 		self.fric = fric
+		self.gravity_const = gravity
+		self.gravity_inverted = 1
 		self.gravity = gravity
-
+		
 		#Movement speed
 		self.max_acceleration = max_acceleration
 		self.jump_speed = jump_speed
@@ -47,8 +49,12 @@ class Character(pygame.sprite.Sprite):
 		self.pos += self.vel + 0.5 * self.acc 	
 		self.is_on_ground = False
 
+	def invert_gravity(self):
+		self.gravity *= -1
+		self.gravity_inverted *= -1
+
 	def get_input(self):
-		self.acc = vec(0,self.gravity)
+		self.acc = vec(0, self.gravity)
 
 		#Inputs to movement
 		if self.should_move_left():
@@ -59,9 +65,12 @@ class Character(pygame.sprite.Sprite):
 			self.acc.y = -self.max_acceleration
 		if self.should_move_down():
 			self.acc.y = self.max_acceleration
-		
+
 		if self.should_jump():
 			self.jump()
+
+		if self.should_invert():
+			self.invert_gravity()
 
 	def should_move_left(self):
 		pass
@@ -78,9 +87,12 @@ class Character(pygame.sprite.Sprite):
 	def should_jump(self):
 		pass
 
+	def should_invert(self):
+		pass
+
 	def jump(self):
-		self.pos.y -= self.jump_speed 
-		self.vel.y = -self.jump_speed
+		self.pos.y -= (self.jump_speed * self.gravity_inverted)
+		self.vel.y = -1 * (self.jump_speed * self.gravity_inverted)
 
 	def render(self):
 		self.rect = self.surf.get_rect(center = (self.pos.x, self.pos.y))
@@ -94,25 +106,46 @@ class Character(pygame.sprite.Sprite):
 		#the bottom of Character need to happen first and collisions with the 
 		#top of Character need to happen last to ensure that the correct side is detected.
 		
+		if self.gravity > 0: # When gravity is pulling down
+			#Bottom of Character
+			if self.rect.centery <= wall.rect.top:
+				self.pos.y = wall.rect.top + 1
+				self.vel.y = 0
+				self.is_on_ground = True
 
-		#Bottom of Character
-		if self.rect.centery <= wall.rect.top:
-			self.pos.y = wall.rect.top + 1
-			self.vel.y = 0
-			self.is_on_ground = True
+			#Top of Character
+			elif self.rect.top + self.rect.height/2 >= wall.rect.bottom:
+				self.pos.y = wall.rect.bottom + self.rect.height * 1.25
+				self.vel.y = 0
 
-		#Top of Character
-		elif self.rect.top + self.rect.height/2 >= wall.rect.bottom:
-			self.pos.y = wall.rect.bottom + self.rect.height * 1.25
-			self.vel.y = 0
+			#Left of Character
+			elif self.rect.left + self.rect.width/2 <= wall.rect.left:
+				self.pos.x = wall.rect.left - self.rect.width/2
+				self.vel.x = 0
 
-		#Left of Character
-		elif self.rect.left - self.rect.width/2 <= wall.rect.left:
-			self.pos.x = wall.rect.left - self.rect.width/2
-			self.vel.x = 0
+			#Right of Character
+			elif self.rect.right - self.rect.width/2 >= wall.rect.right:
+				self.pos.x = wall.rect.right + self.rect.width/2
+				self.vel.x = 0
 
-		#Right of Character
-		elif self.rect.right - self.rect.width/2 >= wall.rect.right:
-			self.pos.x = wall.rect.right + self.rect.width/2
-			self.vel.x = 0
+		if self.gravity < 0: #if gravity is inverted
+			#Top of Character
+			if self.rect.top <= wall.rect.bottom and self.rect.bottom > wall.rect.bottom:
+				self.pos.y = wall.rect.bottom + (self.rect.height - 1)
+				self.vel.y = 0
+				self.is_on_ground = True
 
+			#Bottom of Character
+			elif self.rect.centery - self.rect.height/2 >= wall.rect.top:
+				self.pos.y = wall.rect.bottom - self.rect.height * 1.25
+				self.vel.y = 0
+
+			#Left of Character
+			elif self.rect.left + self.rect.width/2 <= wall.rect.left:
+				self.pos.x = wall.rect.left - self.rect.width/2
+				self.vel.x = 0
+
+			#Right of Character
+			elif self.rect.right - self.rect.width/2 >= wall.rect.right:
+				self.pos.x = wall.rect.right + self.rect.width/2
+				self.vel.x = 0
