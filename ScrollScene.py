@@ -8,8 +8,8 @@ from pygame.math import Vector2 as vec
 
 class ScrollScene(Scene):
 
-	def __init__(self, width, height, focus_size: float):
-		super().__init__(width, height)
+	def __init__(self, width, height, level_file, focus_size: float):
+		super().__init__(width, height, level_file)
 
 		self.offset = vec(0, 0)
 		self.focus_size = focus_size

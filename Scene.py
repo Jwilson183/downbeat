@@ -1,4 +1,4 @@
-#import pygame
+import json
 import pygame
 from pygame.locals import *
 from Character import Character
@@ -14,10 +14,17 @@ class Scene:
 		self,
 		display_width: int,
 		display_height: int,
+		level_file: str,
 	):
+
+
 		#Display
 		self.display_width = display_width
 		self.display_height = display_height
+
+		#File Name
+		self.level_file = level_file
+
 
 		#Make Display
 		self.display_surf = pygame.display.set_mode((self.display_width, self.display_height))
@@ -64,6 +71,17 @@ class Scene:
 		self.players.add (self.player1)
 		self.all_sprites.add(self.players)
 
+
+
+		with open(self.level_file) as sprite_args_list:
+			level_dict = json.load(sprite_args_list)
+		
+		for sprite_args_list in level_dict:
+			for wall in level_dict["Walls"]:
+				self.walls.add(Wall(**wall))	
+			self.all_sprites.add(self.walls)
+
+		"""
 		#walls
 		self.wall1 = Wall(self.display_width/2, self.display_height-20, self.display_width, 30)
 		self.wall2 = Wall(self.display_width/2 + 100, self.display_height-50, 30, 90)
@@ -74,15 +92,7 @@ class Scene:
 		self.walls.add(self.wall2)
 		self.walls.add(self.wall3)
 		self.all_sprites.add(self.walls)
-		
-		#Test Line
-		'''
-		self.test_lines.add(self.topleft_line)
-		self.test_lines.add(self.topright_line)
-		self.test_lines.add(self.bottomleft_line)
-		self.test_lines.add(self.bottomright_line)
-		self.all_sprites.add(self.test_lines)
-		'''
+		"""
 		
 	def register_collisions(self):
 		#for player in self.players:	
@@ -94,15 +104,15 @@ class Scene:
 	
 
 	
-	'''	This code used to be in register collisions for line collision
+	"""	This code used to be in register collisions for line collision
 	self.keep_checking = True
 	self.register_collisions_corners(self.player1.rect.topleft)
 	self.register_collisions_corners(self.player1.rect.topright)
 	self.register_collisions_corners(self.player1.rect.bottomleft)
 	self.register_collisions_corners(self.player1.rect.bottomright)
-	'''
+	"""
 
-'''
+"""
 	def register_collisions_corners(self, corner):
 			
 			if self.keep_checking:
@@ -154,5 +164,5 @@ class Scene:
 
 		if self.line_in_rect:
 			self.player1.handle_wall_collisions(wall, self.player1_br_last_pos)
-		'''
+		"""
 
