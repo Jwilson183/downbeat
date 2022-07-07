@@ -1,4 +1,3 @@
-#import pygame
 import pygame, sys
 from pygame.locals import *
 from Player import Player
@@ -12,7 +11,7 @@ def main():
 
 	frame_per_sec = pygame.time.Clock()	
 
-	scene = ScrollScene(400, 450, "test.json", 0.5)
+	scene = ScrollScene(400, 450, "Custom Levels/test3.json", 0.5)
 	scene.focus = scene.player1
 
 	# Beginning Game Loop
