@@ -6,9 +6,15 @@ import pygame
 class Wall(pygame.sprite.Sprite):
 	def __init__(self, cx, cy, w, h):
 		super().__init__()
+		self.color = colors.red
 		self.surf = pygame.Surface((w, h))
-		self.surf.fill((colors.red))
+		self.surf.fill((self.color))
 		self.rect = self.surf.get_rect(center = (cx, cy))
-
+	
+	def update_surface(self, cx, cy, w, h):
+		self.surf = pygame.Surface((abs(w), abs(h)))
+		self.rect = self.surf.get_rect(center = (cx, cy))
+		self.surf.fill((self.color))
+		
 	def handle_player1_collisions(self, player):
 		pass

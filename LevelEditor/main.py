@@ -10,17 +10,18 @@ def main():
 
 	frame_per_sec = pygame.time.Clock()	
 
-	editor_inst = Editor(400, 450, "test3.json")
+	editor = Editor(400, 450, "test3.json")
 
 	# Beginning Game Loop
 	while True:
 		for event in pygame.event.get():
 			if event.type == QUIT:
-				editor_inst.save_level()
+				if input("Would you like to save? y/n\n").lower().strip() == "y":
+					editor.save_level()
 				pygame.quit()
 				sys.exit()
 	
-		editor_inst.update()
+		editor.update()
 
 		#Editor Update
 		pygame.display.update()
