@@ -33,11 +33,6 @@ class Editor:
 		self.clicked_last_frame = False
 		self.clicked_last_last_frame = False
 		self.first_point = None
-		self.second_point = None
-		self.sprite_cx = None
-		self.sprite_cy = None
-		self.sprite_width = 0
-		self.sprite_height = 0
 		self.temporary_sprite_top = 0
 		self.temporary_sprite_left = 0
 		self.temporary_sprite = None
@@ -79,38 +74,30 @@ class Editor:
 	
 	def make_walls(self):
 		cursor_pos = pygame.mouse.get_pos()
+		current_point = (cursor_pos[0] + self.x_pan_offset, cursor_pos[1] + self.y_pan_offset)
 		if self.clicked_last_frame == False:
-			self.first_point = (cursor_pos[0] + self.x_pan_offset, cursor_pos[1] + self.y_pan_offset)
+			self.first_point = current_point
+			return
 
-		elif self.clicked_last_frame == True:
-			self.second_point = (cursor_pos[0] + self.x_pan_offset, cursor_pos[1] + self.y_pan_offset)
+		second_point = current_point
+
+		#Determining top left coordinates for update
+		self.temporary_sprite_left = min(self.first_point[0], second_point[0])
+		self.temporary_sprite_top = min(self.first_point[1], second_point[1])
+
+		sprite_width = self.first_point[0] - second_point[0]
+		sprite_height = self.first_point[1] - second_point[1]
+		sprite_cx = self.first_point[0] - sprite_width/2
+		sprite_cy = self.first_point[1] - sprite_height/2
+
+		if self.temporary_sprite:
+			self.temporary_sprite.update_surface(sprite_cx, sprite_cy, sprite_width, sprite_height)
+			return
+		self.temporary_sprite = Wall(sprite_cx, sprite_cy, abs(sprite_width), abs(sprite_height))
+		self.walls.add(self.temporary_sprite)
+		self.all_sprites.add(self.walls)
+		print(self.all_sprites)
 			
-			#Determining top left coordinates for update
-			if self.first_point[0] <= self.second_point[0]:
-				self.temporary_sprite_left = self.first_point[0]
-			else:
-				self.temporary_sprite_left = self.second_point[0]
-			if self.first_point[1] <= self.second_point[1]:
-				self.temporary_sprite_top = self.first_point[1]
-			else:
-				self.temporary_sprite_top = self.second_point[1]
-
-			self.sprite_width = self.first_point[0] - self.second_point[0]
-			self.sprite_height = self.first_point[1] - self.second_point[1]
-			self.sprite_cx = self.first_point[0] - self.sprite_width/2
-			self.sprite_cy = self.first_point[1] - self.sprite_height/2
-
-			if self.temporary_sprite == None:
-
-
-				self.temporary_sprite = Wall(self.sprite_cx, self.sprite_cy, abs(self.sprite_width), abs(self.sprite_height))
-				self.walls.add(self.temporary_sprite)
-				self.all_sprites.add(self.walls)
-				print(self.all_sprites)
-			else:
-				self.temporary_sprite.update_surface(self.sprite_cx, self.sprite_cy, self.sprite_width, self.sprite_height)
-				print("updating")
-				print(f"Width{self.sprite_width=} {self.sprite_height=}")
 	def save_level(self):
 		level_dict = {}
 		save_sprite_group(self.walls, "Walls", level_dict)

@@ -2,6 +2,7 @@ from pygame.constants import K_LEFT, K_RIGHT, K_UP, K_r, K_e
 from pygame.math import Vector2 as vec
 from Character import Character
 import pygame
+import os
 
 class Player(Character):
 	def __init__(

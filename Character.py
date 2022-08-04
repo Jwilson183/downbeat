@@ -41,6 +41,7 @@ class Character(pygame.sprite.Sprite):
 		self.get_input()
 		self.move()
 		self.render()
+		self.animate()
 
 	def move(self):
 		if self.vel.x != 0:
@@ -149,3 +150,8 @@ class Character(pygame.sprite.Sprite):
 			elif self.rect.right - self.rect.width/2 >= wall.rect.right:
 				self.pos.x = wall.rect.right + self.rect.width/2
 				self.vel.x = 0
+
+	def animate(self, animation_dir):
+		for frame in os.path.listdir(animation_dir):
+			animarion_list = os.path.join(animation_dir, frame)
+		print(animation_dir)
